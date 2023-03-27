@@ -1,26 +1,24 @@
 import React from 'react'
 import Paper from '@mui/material/Paper'
 import TextField from '@mui/material/TextField'
-import { Box, Button,  } from '@mui/material'
+import { Box, Button, Typography,  } from '@mui/material'
 import axios from 'axios'
 import  {useNavigate} from 'react-router-dom'
 
 
 function Register () {
     const [details, setDetails] = React.useState({email:'', username:'', password:'', })
-    const [registerStatus, setRegisterStatus] = React.useState('')
     const navigate = useNavigate()
 
     const handleRegister = () => {
         axios.post('http://localhost:3001/register', {email: details.email, username: details.username, password: details.password, status: 'active', registerTime: new Date(), lastLoginTime: new Date()}).then(response => {
         if(response.data.message) {
-            setRegisterStatus(response.data.message)
+           console.log( response.data.message)
         }else {
-            setRegisterStatus('success!')
             navigate('/')
         }
 
-        })
+        }).catch(err => console.log(err))
     }
   return (
     <div style={{ marginTop: '5%' }}>
@@ -52,7 +50,7 @@ function Register () {
             variant='standard'
             onChange={(e)=>setDetails({...details, password: e.target.value})}
           />
-          <Button variant='contained' onClick={handleRegister}>Register:  {registerStatus}</Button>
+          <Button variant='contained' onClick={handleRegister}>Register</Button>
         </Box>
       </Paper>
     </div>
