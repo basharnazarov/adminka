@@ -7,14 +7,19 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import Checkbox from "@mui/material/Checkbox";
-import { Box, Typography, Button } from "@mui/material";
+import { Box, Button } from "@mui/material";
 import axios from "axios";
-import { useNavigate } from 'react-router-dom'
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "./auth";
 
 function Admin() {
     const [users, setUsers] = React.useState([]);
-    const navigate = useNavigate()
-
+    const navigate = useNavigate();
+    const auth = useAuth();
+    const handleLogout = () => {
+        auth.logout();
+        navigate("/");
+    };
     const handleFilter = (arr) => {
         const selected = arr.filter((user) => user.isChecked === true);
         if (selected.length === 0) {
@@ -48,7 +53,7 @@ function Admin() {
         const selected = handleFilter(users);
         selected?.forEach((user) => {
             axios
-                .post("http://localhost:3001/block", {
+                .post("https://webapp4-0tik.onrender.com/block", {
                     username: user?.username,
                 })
                 .then((response) => {
@@ -66,7 +71,7 @@ function Admin() {
         const selected = handleFilter(users);
         selected?.forEach((user) => {
             axios
-                .post("http://localhost:3001/unblock", {
+                .post("https://webapp4-0tik.onrender.com/unblock", {
                     username: user?.username,
                 })
                 .then((response) => {
@@ -84,7 +89,7 @@ function Admin() {
         const selected = handleFilter(users);
         selected?.forEach((user) => {
             axios
-                .post("http://localhost:3001/delete", {
+                .post("https://webapp4-0tik.onrender.com/delete", {
                     username: user?.username,
                 })
                 .then((response) => {
@@ -100,7 +105,7 @@ function Admin() {
 
     const fetchData = async () => {
         const result = await axios
-            .get("http://localhost:3001/users")
+            .get("https://webapp4-0tik.onrender.com/users")
             .then((response) => {
                 if (response.data.message) {
                     console.log(response.data.message);
@@ -108,9 +113,9 @@ function Admin() {
                     return response.data;
                 }
             });
-            if(result.length === 0){
-              navigate('/register')
-            }
+        if (result.length === 0) {
+            navigate("/register");
+        }
         setUsers(result);
     };
 
@@ -156,6 +161,14 @@ function Admin() {
                     onClick={handleDelete}
                 >
                     Delete
+                </Button>
+                <Button
+                    size="small"
+                    variant="contained"
+                    color="info"
+                    onClick={handleLogout}
+                >
+                    Logout
                 </Button>
             </Paper>
             <TableContainer

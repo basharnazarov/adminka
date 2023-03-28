@@ -3,37 +3,21 @@ import Paper from "@mui/material/Paper";
 import TextField from "@mui/material/TextField";
 import { Box, Button, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "./auth";
 
 function Login(props) {
     const [details, setDetails] = React.useState({
         username: "",
         password: "",
     });
-
-    const navigate = useNavigate()
-    // const [data, setData] =React.useState('')
-    // const handleLogin = (e) => {
-    //     e.preventDefault();
-    //     axios
-    //         .post("http://localhost:3001/login", {
-    //             username: details.username,
-    //             password: details.password,
-    //         })
-    //         .then((response) => {
-    //             if (response.data.message) {
-    //                 console.log(response.data.message);
-    //             } else {
-    //                setData(response.data[0])
-    //                console.log(props)
-    //                props.setInfo(response.data[0])
-    //             }
-               
-    //         });
-    // };
-
-    
+    const auth = useAuth();
+    const navigate = useNavigate();
+    const handleLogin = (e) => {
+        e.preventDefault();
+        auth.login(details);
+        navigate("/");
+    };
 
     return (
         <div style={{ marginTop: "5%" }}>
@@ -75,9 +59,7 @@ function Login(props) {
                     <Button
                         variant="contained"
                         component={Link}
-                        onClick={(e)=> {
-                          e.preventDefault()
-                          props.handleLogin(e, details.username, details.password)}}
+                        onClick={handleLogin}
                     >
                         Login
                     </Button>
