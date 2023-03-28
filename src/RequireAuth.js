@@ -5,7 +5,6 @@ import { useAuth } from "./auth";
 
 const RequireAuth = () => {
     const isAuth = useAuth();
-    console.log(isAuth.user);
     return isAuth.user ? <Outlet /> : <Login />;
 };
 

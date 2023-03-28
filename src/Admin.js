@@ -33,18 +33,18 @@ function Admin() {
 
     const handleCheckbox = (e) => {
         const { name, checked } = e.target;
-        console.log("name", name, checked);
+
         if (name === "allSelect") {
             let tempUser = users.map((user) => {
                 return { ...user, isChecked: checked };
             });
-            console.log("all", tempUser);
+
             setUsers(tempUser);
         } else {
             let tempUser = users.map((user) =>
                 user.username === name ? { ...user, isChecked: checked } : user
             );
-            console.log("single", tempUser);
+
             setUsers(tempUser);
         }
     };
@@ -58,7 +58,6 @@ function Admin() {
                 })
                 .then((response) => {
                     if (response.data.affectedRows !== 0) {
-                        console.log("successfully updated");
                         fetchData();
                     } else {
                         console.log(response);
@@ -76,7 +75,7 @@ function Admin() {
                 })
                 .then((response) => {
                     if (response.data.affectedRows !== 0) {
-                        console.log("successfully updated");
+                      
                         fetchData();
                     } else {
                         console.log(response);
@@ -94,7 +93,7 @@ function Admin() {
                 })
                 .then((response) => {
                     if (response.data.affectedRows !== 0) {
-                        console.log("successfully updated");
+                   
                         fetchData();
                     } else {
                         console.log(response);
